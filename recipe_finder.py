@@ -61,7 +61,36 @@ def define_recipes():
     }
     return recipes
 
+def search_by_name(recipes, query):
+    found_recipes = []
+    for key, recipe in recipes.items():
+        if query.lower() in recipe['name'].lower():
+            found_recipes.append((key, recipe))
+    return found_recipes
+
+def search_by_ingredient(recipes, ingredient):
+    found_recipes = []
+    for key, recipe in recipes.items():
+        if ingredient.lower() in [i.lower() for i in recipe['ingredients']]:
+            found_recipes.append((key, recipe))
+    return found_recipes
+
+def print_recipe(recipe):
+    print(f"Name: {recipe['name']}")
+    print("Ingredients:")
+    for ingredient in recipe['ingredients']:
+        print(f"- {ingredient}")
+    print("Instructions:")
+    print(recipe['instructions'])
+    print()
+
 print_welcome_message()
 
 recipes = define_recipes()
 print(recipes)
+
+# Example searches:
+# recipes_found = search_by_name(recipes, "chicken")
+# recipes_found = search_by_ingredient(recipes, "spaghetti")
+
+# Uncomment the line above and replace the search parameters as needed.
