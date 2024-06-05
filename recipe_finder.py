@@ -84,13 +84,48 @@ def print_recipe(recipe):
     print(recipe['instructions'])
     print()
 
-print_welcome_message()
+def print_menu():
+    print("\nMenu:")
+    print("1. List all recipes")
+    print("2. Search recipes by name")
+    print("3. Search recipes by ingredient")
+    print("4. Exit")
 
-recipes = define_recipes()
-print(recipes)
+def list_all_recipes(recipes):
+    for key, recipe in recipes.items():
+        print(f"{recipe['name']}")
 
-# Example searches:
-# recipes_found = search_by_name(recipes, "chicken")
-# recipes_found = search_by_ingredient(recipes, "spaghetti")
+def main():
+    print_welcome_message()
+    recipes = define_recipes()
 
-# Uncomment the line above and replace the search parameters as needed.
+    while True:
+        print_menu()
+        choice = input("Enter your choice (1-4): ")
+        
+        if choice == "1":
+            list_all_recipes(recipes)
+        elif choice == "2":
+            query = input("Enter the name of the recipe to search: ")
+            results = search_by_name(recipes, query)
+            if results:
+                for key, recipe in results:
+                    print_recipe(recipe)
+            else:
+                print("No recipes found with that name.")
+        elif choice == "3":
+            ingredient = input("Enter an ingredient to search for: ")
+            results = search_by_ingredient(recipes, ingredient)
+            if results:
+                for key, recipe in results:
+                    print_recipe(recipe)
+            else:
+                print("No recipes found with that ingredient.")
+        elif choice == "4":
+            print("Thank you for using the Recipe Finder. Goodbye!")
+            break
+        else:
+            print("Invalid choice. Please try again.")
+
+if __name__ == "__main__":
+    main()
