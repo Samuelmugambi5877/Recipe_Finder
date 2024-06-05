@@ -107,25 +107,31 @@ def main():
             list_all_recipes(recipes)
         elif choice == "2":
             query = input("Enter the name of the recipe to search: ")
-            results = search_by_name(recipes, query)
-            if results:
-                for key, recipe in results:
-                    print_recipe(recipe)
+            if query.strip():  # Check if the query is not empty
+                results = search_by_name(recipes, query)
+                if results:
+                    for key, recipe in results:
+                        print_recipe(recipe)
+                else:
+                    print("No recipes found with that name.")
             else:
-                print("No recipes found with that name.")
+                print("Please enter a valid recipe name.")
         elif choice == "3":
             ingredient = input("Enter an ingredient to search for: ")
-            results = search_by_ingredient(recipes, ingredient)
-            if results:
-                for key, recipe in results:
-                    print_recipe(recipe)
+            if ingredient.strip():  # Check if the ingredient is not empty
+                results = search_by_ingredient(recipes, ingredient)
+                if results:
+                    for key, recipe in results:
+                        print_recipe(recipe)
+                else:
+                    print("No recipes found with that ingredient.")
             else:
-                print("No recipes found with that ingredient.")
+                print("Please enter a valid ingredient.")
         elif choice == "4":
             print("Thank you for using the Recipe Finder. Goodbye!")
             break
         else:
-            print("Invalid choice. Please try again.")
+            print("Invalid choice. Please enter a number between 1 and 4.")
 
 if __name__ == "__main__":
     main()
