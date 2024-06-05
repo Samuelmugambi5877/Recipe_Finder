@@ -4,6 +4,9 @@ def print_welcome_message():
     print("Welcome to the Recipe Finder")
     print("You can search for recipes based on ingredients and preferences.")
     print("Choose an option to get started:")
+    print("1. Search for a recipe by name")
+    print("2. Search for a recipe by ingredient")
+    print("3. Exit")
 
 def define_recipes():
     recipes = {
@@ -201,11 +204,50 @@ def search_by_name(recipes, query):
     found_recipes = []
     for key, recipe in recipes.items():
         if query.lower() in recipe['name'].lower():
-            found_recipes.append((key, recipe))
+            found_recipes.append(recipe)
     return found_recipes
 
 def search_by_ingredient(recipes, ingredient):
     found_recipes = []
     for key, recipe in recipes.items():
-        if ingredient.lower() in [i.lower() for i in recipe['ingredients']]:
-            found_rec
+        if ingredient.lower() in recipe['ingredients']:
+            found_recipes.append(recipe)
+    return found_recipes
+
+def main():
+    recipes = define_recipes()
+    while True:
+        print_welcome_message()
+        choice = input("Enter your choice: ")
+        if choice == "1":
+            query = input("Enter the name of the recipe you are looking for: ")
+            results = search_by_name(recipes, query)
+            if results:
+                for recipe in results:
+                    print(f"Recipe: {recipe['name']}")
+                    print("Ingredients:")
+                    for ingredient, amount in recipe['ingredients'].items():
+                        print(f"{ingredient}: {amount}")
+                    print(f"Instructions: {recipe['instructions']}")
+            else:
+                print("No recipes found with that name.")
+        elif choice == "2":
+            ingredient = input("Enter an ingredient you want to use: ")
+            results = search_by_ingredient(recipes, ingredient)
+            if results:
+                for recipe in results:
+                    print(f"Recipe: {recipe['name']}")
+                    print("Ingredients:")
+                    for ingredient, amount in recipe['ingredients'].items():
+                        print(f"{ingredient}: {amount}")
+                    print(f"Instructions: {recipe['instructions']}")
+            else:
+                print("No recipes found with that ingredient.")
+        elif choice == "3":
+            print("Exiting the Recipe Finder. Goodbye!")
+            break
+        else:
+            print("Invalid choice. Please try again.")
+
+if __name__ == "__main__":
+    main()
