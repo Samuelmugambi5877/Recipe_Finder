@@ -184,16 +184,16 @@ def define_recipes():
                 "ginger": "1 tsp",
                 "vegetable oil": "2 tbsp"
             },
-            "instructions": "Saute garlic and ginger (2 minutes); add vegetables and stir-fry (10 minutes); add soy sauce and cook until vegetables are tender."
+            "instructions": "Saute garlic and ginger (2 minutes); add chopped vegetables and stir-fry until tender (10 minutes); add soy sauce and cook for another 2 minutes."
         },
         "avocado_salad": {
             "name": "Avocado Salad",
             "ingredients": {
-                "avocado": "2",
+                "avocado": "1",
                 "tomatoes": "2",
                 "cucumber": "1",
-                "red onion": "1",
-                "lime juice": "2 tbsp",
+                "red onion": "1/2",
+                "lime juice": "1 tbsp",
                 "olive oil": "2 tbsp",
                 "salt": "to taste",
                 "pepper": "to taste"
