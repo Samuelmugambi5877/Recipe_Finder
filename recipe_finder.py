@@ -1,12 +1,13 @@
-# recipe_finder.py
+import json
 
 def print_welcome_message():
-    print("Welcome to the Recipe Finder")
+    print("\nWelcome to the Recipe Finder")
     print("You can search for recipes based on ingredients and preferences.")
     print("Choose an option to get started:")
     print("1. Search for a recipe by name")
     print("2. Search for a recipe by ingredient")
-    print("3. Exit")
+    print("3. View saved searches")
+    print("4. Exit")
 
 def define_recipes():
     recipes = {
@@ -193,9 +194,24 @@ def define_recipes():
                 "cucumber": "1",
                 "red onion": "1",
                 "lime juice": "2 tbsp",
-                "cilantro": "a handful"
+                "olive oil": "2 tbsp",
+                "salt": "to taste",
+                "pepper": "to taste"
             },
-            "instructions": "Chop avocado, tomatoes, cucumber, and red onion (10 minutes); toss with lime juice and cilantro."
+            "instructions": "Chop avocado, tomatoes, cucumber, and red onion (5 minutes); toss with lime juice, olive oil, salt, and pepper."
+        },
+        "spinach_and_feta_omelette": {
+            "name": "Spinach and Feta Omelette",
+            "ingredients": {
+                "eggs": "3",
+                "spinach": "1 cup",
+                "feta cheese": "1/4 cup",
+                "onion": "1/2",
+                "olive oil": "1 tbsp",
+                "salt": "to taste",
+                "pepper": "to taste"
+            },
+            "instructions": "Saute spinach and onion (5 minutes); beat eggs and pour into pan (2 minutes); add feta cheese and cook until eggs are set (5 minutes)."
         }
     }
     return recipes
@@ -224,18 +240,40 @@ def display_recipes(recipes):
             print(f"{ingredient}: {quantity}")
         print("Instructions:", recipe['instructions'])
 
+def save_search(query, results):
+    search_data = {
+        "query": query,
+        "results": [recipe['name'] for recipe in results]
+    }
+    with open("search_history.json", "a") as file:
+        json.dump(search_data, file)
+        file.write("\n")
+
+def view_saved_searches():
+    try:
+        with open("search_history.json", "r") as file:
+            for line in file:
+                search_data = json.loads(line)
+                print(f"\nSearch Query: {search_data['query']}")
+                print("Results:")
+                for result in search_data['results']:
+                    print(result)
+    except FileNotFoundError:
+        print("No saved searches found.")
+
 def main():
     recipes = define_recipes()
     print_welcome_message()
     
     while True:
         try:
-            choice = int(input("Enter your choice (1, 2, or 3): "))
+            choice = int(input("Enter your choice (1, 2, 3, or 4): "))
             if choice == 1:
                 query = input("Enter the name of the recipe you're looking for: ")
                 found_recipes = search_by_name(recipes, query)
                 if found_recipes:
                     display_recipes(found_recipes)
+                    save_search(query, found_recipes)
                 else:
                     print("No recipes found with that name.")
             elif choice == 2:
@@ -243,15 +281,18 @@ def main():
                 found_recipes = search_by_ingredient(recipes, query)
                 if found_recipes:
                     display_recipes(found_recipes)
+                    save_search(query, found_recipes)
                 else:
                     print("No recipes found with that ingredient.")
             elif choice == 3:
+                view_saved_searches()
+            elif choice == 4:
                 print("Goodbye!")
                 break
             else:
-                print("Invalid choice. Please enter 1, 2, or 3.")
+                print("Invalid choice. Please enter 1, 2, 3, or 4.")
         except ValueError:
-            print("Invalid input. Please enter a number (1, 2, or 3).")
+            print("Invalid input. Please enter a number (1, 2, 3, or 4).")
 
 if __name__ == "__main__":
     main()
